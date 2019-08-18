@@ -16,6 +16,8 @@ dict_organism_abbr = j['dict_organism_abbr']
 
 
 # 2 创造基因组并把faidx拷到文件夹，并重命名成一个通用名，以便后面代码不需要改
-genome_dir = '/home/wang.zhi/metadata/genome/' + specie_genome
-faidx_dir = '/home/wang.zhi/metadata/genome/' + specie_genome + '.fai'
-os.system('cp %s ./original_computation/%s/src/genome.fai'%(faidx_dir,specie_name))
+for (specie_name, specie_genome) in zip(dict_abbr_index.keys(), dict_abbr_index.values()):
+    specie_genome = specie_genome.replace('_bwa_index', '')
+    genome_dir = '/data1/szx/metadata/genome/' + specie_genome
+    faidx_dir = '/data1/szx/metadata/genome/' + specie_genome + '.fai'
+    os.system('cp %s ../results/bulk_specie_results/%s/src/genome.fai'%(faidx_dir,specie_name))
