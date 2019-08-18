@@ -1,7 +1,7 @@
 import os
 
 align_file_list = os.listdir('../results/bwa_align')
-# os.system('mkdir ../results/bwa_align_sorted_bam/')
+os.system('mkdir ../results/bwa_align_sorted_bam/')
 result_list = [x.split('_')[1].strip('.bam') for x in os.listdir('../results/bwa_align_sorted_bam')]
 align_file_list = [x for x in align_file_list if x.split('.')[0] not in result_list]
 

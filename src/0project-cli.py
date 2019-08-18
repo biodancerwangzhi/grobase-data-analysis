@@ -2,42 +2,15 @@
 import os
 import csv
 import re
+import json
 
-table_header_list = ['gsm_id', 'srx_id', 'srr_id', 'gse', 'organism', 'seq_type', 
-'source', 'tissue', 'bio_type', 'paper_title', 'pmid', 'organization', 'date_time']
-dict_organism_abbr = {
-    'Arabidopsis thalian': 'ara', 
-    'Caenorhabditis elegans': 'cae', 
-    'Drosophila melanogaster': 'dro', 
-    'Homo sapiens': 'human', 
-    'Macaca mul': 'mac',
-    'Manihot esculen': 'man',
-    'Mus musculus': 'mouse', 
-    'Pan troglodytes': 'pan',
-    'Plasmodium falciparum': 'pla', 
-    'Rattus norvegicus': 'rat', 
-    'Saccharomyces cerevisiae': 'sac',
-    'Schizosaccharomyces pombe': 'sch',
-    'Zea mays': 'zea'
-}
+f=open('./common.json')
+content = f.read()
+j=json.loads(content)
 
-dict_abbr_index = {
-    'ara':'Arabidopsis_thaliana.TAIR10.dna.toplevel.fa_bwa_index', 
-    'cae':'Caenorhabditis_elegans.WBcel235.dna.toplevel.fa_bwa_index', 
-    'dro':'Drosophila_melanogaster.BDGP6.dna.toplevel.fa_bwa_index', 
-    'human':'Homo_sapiens.GRCh38.dna.primary_assembly.fa_bwa_index', 
-    'mac':'Macaca_mulatta.Mmul_8.0.1.dna.toplevel.fa.gz_bwa_index',
-    'man':'Manihot_esculenta.Manihot_esculenta_v6.dna.toplevel.fa_bwa_index',
-    'mouse':'Mus_musculus.GRCm38.dna.primary_assembly.fa_bwa_index', 
-    'pan':'Pan_troglodytes.Pan_tro_3.0.dna.toplevel.fa.gz_bwa_index',
-    'pla':'Plasmodium_falciparum.EPr1.dna.toplevel.fa_bwa_index', 
-    'rat':'Rattus_norvegicus.Rnor_6.0.dna.toplevel.fa_bwa_index', 
-    'sac':'Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa_bwa_index',
-    'sch':'Schizosaccharomyces_pombe.ASM294v2.dna.toplevel.fa.gz_bwa_index',
-    'zea':'Zea_mays.B73_RefGen_v4.dna.toplevel.fa_bwa_index'
-}
-
-
+table_header_list = j['table_header_list']
+dict_organism_abbr = j['dict_organism_abbr']
+dict_abbr_index = j['dict_abbr_index']
 
 # 1 先创建所有物种的文件夹，和下级的文件夹
 gsm_detail_dir = '../original_data/gsm_detail_results.csv'
@@ -84,5 +57,41 @@ for specie_dir in set_specie_dir:
     ##### 后面还有些文件需要加到src模板，并且动态修改它们的注释文件名。  
 
 
-    
 
+# 4 将每个物种的gsm 和 srr id 放进每个物种文件夹的original_data。  
+# 将相应的fastq mv进相应的目录中。这步不要急，先print一下，然后再mv。等其他的都运行完再执行。
+
+dict_specie_gsm_list = {}
+dict_gsm_srr = {}
+dict_gsm_srr_list = {}
+for gsm_detail_ln in open(gsm_detail_dir):
+    gsm_field_list = gsm_detail_ln.split('!')
+    specie_name = gsm_field_list[4]
+    gsm_id = gsm_field_list[0].strip('"').strip()
+    srr_id = gsm_field_list[2]
+    dict_gsm_srr.setdefault(gsm_id, srr_id)
+    if specie_name in dict_specie_gsm_list.keys():
+        dict_specie_gsm_list[specie_name].append(gsm_id)
+    else:
+        dict_specie_gsm_list.setdefault(specie_name, [gsm_id])
+
+#print dict_gsm_srr
+for specie_name in dict_specie_gsm_list.keys():
+    specie_abbr = dict_organism_abbr[specie_name]
+    gsm_id_list = dict_specie_gsm_list[specie_name]
+    # print gsm_id_list
+    gsm_txt_file = open('../results/bulk_specie_results/%s/original_data/gsm.txt'%specie_abbr, 'w')
+    srr_txt_file = open('../results/bulk_specie_results/%s/original_data/srr.txt'%specie_abbr, 'w')
+    for gsm_id in gsm_id_list:
+
+        gsm_id=gsm_id.strip('"').strip()
+        try:
+            srr_id = dict_gsm_srr[gsm_id]
+        except:
+            print gsm_id
+        gsm_txt_file.write(gsm_id + '\n')
+        srr_txt_file.write(srr_id + '\n')
+
+        #os.system('mv ../original_data/original_fastq/%s* ../results/bulk_specie_results/%s/original_data/original_fastq/'%(srr_id, specie_abbr))
+    gsm_txt_file.close()
+    srr_txt_file.close()
