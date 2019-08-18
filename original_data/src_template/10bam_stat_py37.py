@@ -1,3 +1,4 @@
+#  run 'nohup python 10bam_stat_py37.py 1>../logs/10bam_stat.log 2>&1 &'  to get log file
 import os
 
 list_bam_bai = os.listdir('../results/merge_bam')

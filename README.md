@@ -21,8 +21,14 @@ commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/
 检验要分析的gsm id是否已经在产生的bam中。  
 
 ### 0-2移动关键文件  
-commit[地址]()
-1将fq文件移动到各种物种文件夹下。  
+commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/a49511e5cabab023547b88be301f98d0e41a6717/src/0-2mv_files.py)
+1批量将sra变成fq，然后将fq文件移动到各种物种文件夹下。  
 2将faidx文件移动到各种物种文件夹下。  
 
 ## 物种层级  
+### 基础运算
+commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/a249c547fed542064f19c47e6e66fd28d41a844f#diff-b6930e80c1c53fc9eb467f7a76d4132c/original_data/src_template/3trim_polya.py)
+fq->bam  
+包括常见的reads文件trim和碱基质控。比对，排序，建索引等。模板文件[3-8]  
+bam stat和fastqc  
+简单的比对统计和质控。模板文件[9-10]  
