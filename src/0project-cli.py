@@ -11,6 +11,7 @@ j=json.loads(content)
 table_header_list = j['table_header_list']
 dict_organism_abbr = j['dict_organism_abbr']
 dict_abbr_index = j['dict_abbr_index']
+dict_abbr_annotation = j['dict_abbr_annotation']
 
 # 1 先创建所有物种的文件夹，和下级的文件夹
 gsm_detail_dir = '../original_data/gsm_detail_results.csv'
@@ -49,8 +50,14 @@ for specie_dir in set_specie_dir:
     os.system('cp -r -f ../original_data/src_template/* ../results/bulk_specie_results/%s/src'%specie_dir)
     # 3 改变模板中的注释文件  
     align_bwa = '../results/bulk_specie_results/%s/src/5align_bwa.py'%specie_dir
-    strFile = open(align_bwa).read().replace('{{bwa_index}}', dict_abbr_index[specie_dir])  
+    strFile = open(align_bwa).read().replace('{{bwa_index}}', dict_abbr_index[specie_dir])
     c = open(align_bwa, 'w')
+    c.write(strFile)
+    c.close()
+
+    gene_exon_feature_count = '../results/bulk_specie_results/%s/src/11exons_gene_featureCount.py'%specie_dir
+    strFile = open(gene_exon_feature_count).read().replace('{{annotation_gtf}}', dict_abbr_annotation[specie_dir])
+    c = open(gene_exon_feature_count, 'w')
     c.write(strFile)
     c.close()
 

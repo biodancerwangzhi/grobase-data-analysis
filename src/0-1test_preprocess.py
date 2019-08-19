@@ -59,6 +59,6 @@ gsm_detail_dir = '../original_data/gsm_detail_results.csv'
 for gsm_detail_ln in open(gsm_detail_dir):
     gsm_field_list = gsm_detail_ln.split('!')
     specie_name = gsm_field_list[4]
-    gsm_id = gsm_field_list[0]
+    gsm_id = gsm_field_list[0].replace('"', '')
     if gsm_id + '.bam' not in analysised_gsm_list:
         print specie_name, gsm_id

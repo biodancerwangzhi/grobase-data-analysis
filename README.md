@@ -26,9 +26,23 @@ commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/
 2将faidx文件移动到各种物种文件夹下。  
 
 ## 物种层级  
-### 基础运算
+### 1-0sra-bam的基础运算
 commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/a249c547fed542064f19c47e6e66fd28d41a844f#diff-b6930e80c1c53fc9eb467f7a76d4132c/original_data/src_template/3trim_polya.py)
 fq->bam  
 包括常见的reads文件trim和碱基质控。比对，排序，建索引等。模板文件[3-8]  
 bam stat和fastqc  
 简单的比对统计和质控。模板文件[9-10]  
+
+### 1-1各种feature count  
+commit[地址]()  
+需要各种注释文件生成，见others的注释生成部分。
+1 gene和exon层面的feature count。  
+
+
+
+## others
+### annotation生成  
+1 确定暂停位点需要从promoter区到gene body的windows length为200的reads density，用于证明基因表达是连续的，和比较是否服从均一分布。 
+还需要promoter区的小窗length为50slide为25，去确定具体位置的具体定位。  
+
+2 确定暂停基因

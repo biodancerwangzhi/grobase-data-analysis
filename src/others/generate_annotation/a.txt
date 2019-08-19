@@ -1,0 +1,3 @@
+I	PomBase	gene	1	5662	.	-	.	gene_id "SPAC212.11"; gene_name "tlh1"; gene_source "PomBase"; gene_biotype "protein_coding";
+I	PomBase	gene	11784	12994	.	+	.	gene_id "SPAC212.08c"; gene_name "SPAC212.08c"; gene_source "PomBase"; gene_biotype "protein_coding";
+I	PomBase	gene	15855	16226	.	+	.	gene_id "SPAC212.12"; gene_name "SPAC212.12"; gene_source "PomBase"; gene_biotype "protein_coding";
