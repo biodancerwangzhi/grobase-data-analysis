@@ -61,6 +61,31 @@ for specie_dir in set_specie_dir:
     c.write(strFile)
     c.close()
 
+    gene_exon_feature_count = '../results/bulk_specie_results/%s/src/12promoter_geneBody_featureCount.py'%specie_dir
+    strFile = open(gene_exon_feature_count).read().replace('{{updown_1k_tss}}', dict_abbr_annotation[specie_dir].replace('.gtf', '__protein_coding__gene__1k_tss_1k.gtf'))
+    strFile = strFile.replace('{{tss_1k_tes_1k}}', dict_abbr_annotation[specie_dir].replace('.gtf', '__protein_coding__gene__tss_1k_tes_1k.gtf'))
+    c = open(gene_exon_feature_count, 'w')
+    c.write(strFile)
+    c.close()   
+
+    gene_exon_feature_count = '../results/bulk_specie_results/%s/src/13intergenic_region_featureCount.py'%specie_dir
+    strFile = open(gene_exon_feature_count).read().replace('{{intergenic_region}}', dict_abbr_annotation[specie_dir].replace('.gtf', '__intergenic.gtf'))
+    c = open(gene_exon_feature_count, 'w')
+    c.write(strFile)
+    c.close()  
+  
+    gene_exon_feature_count = '../results/bulk_specie_results/%s/src/13pause_gene_featureCount.py'%specie_dir
+    strFile = open(gene_exon_feature_count).read().replace('{{promoter_windows}}', dict_abbr_annotation[specie_dir].replace('.gtf', '__protein_coding__gene__promoter_windows.gtf'))
+    strFile = strFile.replace('{{geneBody_windows}}', dict_abbr_annotation[specie_dir].replace('.gtf', '__protein_coding__gene__geneBody_windows.gtf'))
+    c = open(gene_exon_feature_count, 'w')
+    c.write(strFile)
+    c.close()   
+
+    gene_exon_feature_count = '../results/bulk_specie_results/%s/src/14export_express_matrix.py'%specie_dir
+    strFile = open(gene_exon_feature_count).read().replace('{{gtf_file}}', dict_abbr_annotation[specie_dir])
+    c = open(gene_exon_feature_count, 'w')
+    c.write(strFile)
+    c.close()       
     ##### 后面还有些文件需要加到src模板，并且动态修改它们的注释文件名。  
 
 

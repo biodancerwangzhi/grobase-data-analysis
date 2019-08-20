@@ -1,14 +1,14 @@
 # -*- coding:utf-8 -*-
 '''
-    比较promoter区和gene体的密度，从而计算是否暂停。
+    compare promoter and gene body density, to find out pausing genes
 '''
 
 import os
 os.system('mkdir ../results/promoter_gene_body_featureCount/')
 # protein.1k_tss_1k
-promoter_annotation_file = '/data1/szx/metadata/gene_annotation/human/Homo_sapiens.protein.1k_tss_1k.gtf'
-# protein.tss_1k_tes
-gene_body_annotation_file = '/data1/szx/metadata/gene_annotation/human/Homo_sapiens.protein.tss_1k_tes.gtf'
+promoter_annotation_file = '/data1/szx/metadata/gene_annotation/tss_updown_1k/{{updown_1k_tss}}'
+# protein.tss_1k_tes_1k
+gene_body_annotation_file = '/data1/szx/metadata/gene_annotation/tss_1k_tes_1k/{{tss_1k_tes_1k}}'
 
 pair_end_sam = []
 

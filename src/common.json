@@ -49,6 +49,22 @@
         "sac":"Saccharomyces_cerevisiae.R64-1-1.95.gtf",
         "sch":"Schizosaccharomyces_pombe.ASM294v2.43.gtf",
         "zea":"Zea_mays.B73_RefGen_v4.42.gtf"   
+    },
+
+    "dict_annotation_genome": {
+        "Arabidopsis_thaliana.TAIR10.43.gtf":"Arabidopsis_thaliana.TAIR10.dna.toplevel.fa_bwa_index", 
+        "Caenorhabditis_elegans.WBcel235.95.gtf":"Caenorhabditis_elegans.WBcel235.dna.toplevel.fa_bwa_index", 
+        "Drosophila_melanogaster.BDGP6.95.gtf":"Drosophila_melanogaster.BDGP6.dna.toplevel.fa_bwa_index", 
+        "Homo_sapiens.GRCh38.93.gtf":"Homo_sapiens.GRCh38.dna.primary_assembly.fa_bwa_index", 
+        "Macaca_mulatta.Mmul_8.0.1.96.gtf":"Macaca_mulatta.Mmul_8.0.1.dna.toplevel.fa_bwa_index",
+        "Manihot_esculenta.Manihot_esculenta_v6.43.gtf":"Manihot_esculenta.Manihot_esculenta_v6.dna.toplevel.fa_bwa_index",
+        "Mus_musculus.GRCm38.95.gtf":"Mus_musculus.GRCm38.dna.primary_assembly.fa_bwa_index", 
+        "Pan_troglodytes.Pan_tro_3.0.96.gtf":"Pan_troglodytes.Pan_tro_3.0.dna.toplevel.fa_bwa_index",
+        "Plasmodium_falciparum.EPr1.42.gtf":"Plasmodium_falciparum.EPr1.dna.toplevel.fa_bwa_index", 
+        "Rattus_norvegicus.Rnor_6.0.95.gtf":"Rattus_norvegicus.Rnor_6.0.dna.toplevel.fa_bwa_index", 
+        "Saccharomyces_cerevisiae.R64-1-1.95.gtf":"Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa_bwa_index",
+        "Schizosaccharomyces_pombe.ASM294v2.43.gtf":"Schizosaccharomyces_pombe.ASM294v2.dna.toplevel.fa_bwa_index",
+        "Zea_mays.B73_RefGen_v4.42.gtf":"Zea_mays.B73_RefGen_v4.dna.toplevel.fa_bwa_index"
     }
 
 }

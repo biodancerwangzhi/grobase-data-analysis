@@ -8,24 +8,6 @@ import os
 
 # file_ensembl_annotation = '/stornext/HPCScratch/home/wang.zhi/reference/gene/gene_annotation/Homo_sapiens.GRCh38.93.gtf'
 
-def gtf2bd(gtf_file):
-    file_bd = gtf_file.replace('.gtf', '')+'.bed'
-    c = open(file_bd, 'w')
-    for ln_gtf in open(gtf_file):
-        if ln_gtf[0] == '#':
-            continue
-        list_gtf = ln_gtf.split('\t')
-        gene_length = str(int(list_gtf[4])-int(list_gtf[3]))
-        try:
-            gene_name = ln_gtf.split('gene_name "')[1].split('"')[0]
-        except:
-            gene_name = ln_gtf.split('gene_id "')[1].split('"')[0]
-        new_ln = 'chr'+list_gtf[0]+'\t'+list_gtf[3]+'\t'+list_gtf[4]+'\t'+ \
-ln_gtf.split('gene_biotype "')[1].split('"')[0]+'_'+gene_name+'\t'+gene_length+'\t'+list_gtf[6]+'\n'
-        c.write(new_ln)
-    c.close()
-
-
 '''
 # 从gene，transcript，exon，intron这些feature中选择分析内容属于基因的哪部分。  
 def extract_genefeature(gtf_file, gene_feature_list, output_file):

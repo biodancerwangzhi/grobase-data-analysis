@@ -25,24 +25,36 @@ commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/
 1批量将sra变成fq，然后将fq文件移动到各种物种文件夹下。  
 2将faidx文件移动到各种物种文件夹下。  
 
+### 1-0统计所有bam文件的fastq 结果  
+commit[地址]()
+整理到一张excel表。   
+
+### 1-1统计各种比对率  
+commit[地址]()  
+整理到一张execel表。  
+
 ## 物种层级  
-### 1-0sra-bam的基础运算
+### 0-0sra-bam的基础运算
 commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/a249c547fed542064f19c47e6e66fd28d41a844f#diff-b6930e80c1c53fc9eb467f7a76d4132c/original_data/src_template/3trim_polya.py)
 fq->bam  
 包括常见的reads文件trim和碱基质控。比对，排序，建索引等。模板文件[3-8]  
 bam stat和fastqc  
 简单的比对统计和质控。模板文件[9-10]  
 
-### 1-1各种feature count  
+### 0-1各种feature count  
 commit[地址]()  
 需要各种注释文件生成，见others的注释生成部分。
-1 gene和exon层面的feature count。  
+1 gene和exon层面的featureCount。  
+2 promoter和gene body的featureCount。  
+3 promoter和gene body windows 的featureCount。  
+4 intergenic region的featureCount。  
 
-
+### 0-2提取express matrix  
+commit[地址]()
+上面生成的count需要输出到excel。  
 
 ## others
-### annotation生成  
-1 确定暂停位点需要从promoter区到gene body的windows length为200的reads density，用于证明基因表达是连续的，和比较是否服从均一分布。 
-还需要promoter区的小窗length为50slide为25，去确定具体位置的具体定位。  
-
-2 确定暂停基因
+### 0-0 annotation生成  
+commit[地址]()
+1 确定暂停基因需要promoter区和gene body区的reads密度，所以要构建gene的promoter区和gene body区。  
+2 暂停模型比较复杂，还需要建一个滑窗去做统计分析。也会考虑背景值，intergenic region的density。  
