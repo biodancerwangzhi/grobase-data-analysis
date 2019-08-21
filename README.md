@@ -42,7 +42,7 @@ bam stat和fastqc
 简单的比对统计和质控。模板文件[9-10]  
 
 ### 0-1各种feature count  
-commit[地址]()  
+commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/c066a53c5a17c145e2e9b53066bc424da2440878/original_data/src_template/12promoter_geneBody_featureCount.py)  
 需要各种注释文件生成，见others的注释生成部分。
 1 gene和exon层面的featureCount。  
 2 promoter和gene body的featureCount。  
@@ -50,11 +50,16 @@ commit[地址]()
 4 intergenic region的featureCount。  
 
 ### 0-2提取express matrix  
-commit[地址]()
+commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/c066a53c5a17c145e2e9b53066bc424da2440878/original_data/src_template/14export_express_matrix.py )
 上面生成的count需要输出到excel。  
+
+### 0-3计算暂停基因  
+确定是否激活
+PI(folder change)模型
+fisher test 模型 
 
 ## others
 ### 0-0 annotation生成  
-commit[地址]()
+commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/c066a53c5a17c145e2e9b53066bc424da2440878/src/others/generate_annotation/4pause_gene_windows.py)
 1 确定暂停基因需要promoter区和gene body区的reads密度，所以要构建gene的promoter区和gene body区。  
 2 暂停模型比较复杂，还需要建一个滑窗去做统计分析。也会考虑背景值，intergenic region的density。  
