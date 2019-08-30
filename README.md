@@ -54,8 +54,13 @@ commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/
 上面生成的count需要输出到excel。  
 
 ### 0-3计算暂停基因  
-确定是否激活
+commit[地址]()
+1 确定是否激活: 
+    通过一些基础函数提取样本在express matrix的具体列。
+    使用possion分布比较gene body的density和intergenic region（背景）的density。  
+
 PI(folder change)模型
+
 fisher test 模型 
 
 ## others
