@@ -9,7 +9,8 @@ dir_protein_gene = '/data1/szx/metadata/gene_annotation/protein_gene/'
 
 condition_dict={
     'tss_tes': ['tss'],
-    'left_right_length': [-1000, 1000]
+    'left_right_length': [-1000, 1000],
+    'length_threshold': 2000
 }
 
 for file in os.listdir(dir_protein_gene):

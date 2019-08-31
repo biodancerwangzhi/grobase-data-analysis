@@ -36,7 +36,7 @@ def parse_tss_tes_conditon(condition_dict):
 def generate_region_from_gtf(file, output_file, condition_dict):  
     if 'tss_tes' in condition_dict.keys():   
         left_point, right_point= parse_tss_tes_conditon(condition_dict)
-        [left_length, right_length] = condition_dict['left_right_length']
+        [left_length, right_length] = condition_dict['left_right_length']  
     '''    
     if 'windows_length' in condition_dict.keys():
         windows_length = condition_dict['windows_length']
@@ -50,10 +50,19 @@ def generate_region_from_gtf(file, output_file, condition_dict):
         strand = list_gene[6]
         start = list_gene[3]
         end = list_gene[4]
+        length = int(end) - int(start)
         left = start
         right = end
 
         if 'tss_tes' in condition_dict.keys(): 
+            length_threshold = 0
+            # length_threshold is the parameter for  1k tss 1k, some gene less than 2kb.
+            if 'length_threshold' in condition_dict.keys():   
+                length_threshold = condition_dict['length_threshold']   
+                if length < length_threshold:   
+                    left_length = int(length/2) if(left_length>=0) else int(length/2)*-1
+                    right_length = int(length/2) if (right_length>=0) else int(length/2)*-1
+
             if strand == '+':
                 if left_point == 'tss':
                     left = int(start) + left_length
@@ -66,19 +75,19 @@ def generate_region_from_gtf(file, output_file, condition_dict):
             else:
                 # 左边的点用来确定左边，负链
                 if left_point == 'tss':
-                    right = int(end) - right_length
+                    left = int(start) - right_length
                 else:
-                    right = int(start) - right_length
+                    left = int(end) - right_length
                 if right_point == 'tss':
-                    left = int(end) - left_length
+                    right = int(start) - left_length
                 else:
-                    left = int(start) - left_length
-        length_threshold = 0
-        if 'length_threshold' in condition_dict.keys():   
-            length_threshold = condition_dict['length_threshold']   
-        if left > 0 and (right-left)>length_threshold:
-            new_ln = ln_gene.split('\tgene\t')[0]+'\tgene\t' + str(left)+'\t'+ str(right)+'\t.\t'+strand+'\t.\tgene_id' +ln_gene.split('.\tgene_id')[1]
-            c.write(new_ln)
+                    right = int(end) - left_length
+
+        if left <= 0:
+            left = 1
+
+        new_ln = ln_gene.split('\tgene\t')[0]+'\tgene\t' + str(left)+'\t'+ str(right)+'\t.\t'+strand+'\t.\tgene_id' +ln_gene.split('.\tgene_id')[1]
+        c.write(new_ln)
     c.close()                 
 
 def generate_tss_region_from_gtf(file, output_file, distance=1000):
