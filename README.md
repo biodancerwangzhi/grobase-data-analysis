@@ -59,9 +59,21 @@ commit[地址]()
     通过一些基础函数提取样本在express matrix的具体列。
     使用possion分布比较gene body的density和intergenic region（背景）的density。  
 
-PI(folder change)模型
+    这里还尝试了和RNA-Seq比一比激活基因的个数，
+        从archs4下了所有rna-seq的表达矩阵，
+        获取了具体gsm的count list，
+        找到了网上的两种方法1 FPKM>1 2 zFPKM > -3，  
+        但其中有很多问题，一个细胞系有很多样本选哪些比较，gro和rna-seq的gene索引找到表达值比较麻烦（懒得写），gro数据还要重算，而且比来比去也没多大意思对数据库没多大影响  
 
+PI(folder change)模型
 fisher test 模型 
+    按公式计算
+    整合到一个excel中
+
+### 0-4各种数据的统计量分布情况。  
+所有分析结果都要生成基于样本的统计。  
+将分布的情况转化成百分比。  
+设计图表，基于原始数据或百分比。  
 
 ## others
 ### 0-0 annotation生成  
