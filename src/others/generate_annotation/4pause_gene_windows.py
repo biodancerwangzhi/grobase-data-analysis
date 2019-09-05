@@ -16,6 +16,6 @@ for file in os.listdir(dir_protein_gene):
     promoter_windows_output = output_dir + file.replace('.gtf', '__promoter_windows.gtf')
     geneBody_windows_output = output_dir + file.replace('.gtf', '__geneBody_windows.gtf')
     # promoter windows
-    generate_slide_windows(annotation_dir + 'tss_updown_1k/' + file.replace('.gtf', '__1k_tss_1k.gtf'), promoter_windows_output, 50, 5)
+    generate_slide_windows_with_same_bin_number(annotation_dir + 'tss_updown_1k/' + file.replace('.gtf', '__1k_tss_1k.gtf'), promoter_windows_output, 50, 100)
     # gene body 小窗
     generate_slide_windows_with_same_bin_number(annotation_dir + 'tss_1k_tes_1k/' + file.replace('.gtf', '__tss_1k_tes_1k.gtf'), geneBody_windows_output, 1000, 390)

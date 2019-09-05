@@ -25,6 +25,13 @@ def read_csv_row_ndarray(csvDir, row, col_start):
         newLine =rowData.readline()
     return np.array(newLine.strip('\n').split(',')[col_start:])
 
+def get_list_val_index_dic(list_a):
+    dic_a = {}
+    for i in range(len(list_a)):
+        val = list_a[i]
+        dic_a.setdefault(val, i)
+    return dic_a 
+    
 def get_poisson_probability(k, _lambda):
     l = _lambda   # float
     k = int(k)      # int
@@ -48,19 +55,13 @@ def get_density_list(csvDir, sample_col):
     count_array = read_csv_col_ndarray(csvDir, sample_col, 1)
     return count_array/length_array
 
-def get_list_val_index_dic(list_a):
-    dic_a = {}
-    for i in range(len(list_a)):
-        val = list_a[i]
-        dic_a.setdefault(val, i)
-    return dic_a 
 
 def get_active_gene(gene_body_file, intergenic_file, output_file):
     gene_body_sample_name_list = open(gene_body_file).readline().strip().split(',')
     gene_body_sample_val_index_dict = get_list_val_index_dic(gene_body_sample_name_list)
     intergenic_sample_name_list = open(intergenic_file).readline().strip().split(',')
     intergenic_sample_val_index_dict = get_list_val_index_dic(intergenic_sample_name_list)
-    intergenic_total_length = np.sum(read_csv_col_ndarray(intergenic_file, 1, 1))
+    #intergenic_total_length = np.sum(read_csv_col_ndarray(intergenic_file, 1, 1))
 
     # gene name
     old_column = np.loadtxt(gene_body_file, delimiter=',',unpack=True, skiprows=1, usecols=0, dtype='string')
@@ -111,27 +112,18 @@ def get_pi(promoter_file, gene_body_file, output_file):
     old_column_T = np.vstack([np.array(sample_list), old_column_T])
     np.savetxt(output_file, old_column_T, delimiter=',', fmt='%s')     
 
-def get_gene_window_dict(file, windows_num = 390):
-    dict_a = {}
-    list_ln = open(file).readlines()	
-    int_total = len(list_ln)
-    int_num =2
-    while int_num< int_total-1:
-        list_gene_windows = list_ln[int_num:int_num+windows_num]
-        gene_name = '_'.join(list_gene_windows[0].split('_')[:-1])
-        # 
-        list_windows_density = [float(i.strip('\n').split('\t')[-1])/(int(i.strip('\n').split('\t')[-2])) for i in list_gene_windows]
-		# int_max_count = max(list_bin_count)
-        dict_a.setdefault(gene_name, list_windows_density)
-        int_num +=windows_num
-    return dict_a
+def fisher_test(gene_body_count, promoter_proximal_peak_count, float_lambda, gene_body_length, promoter_window_length):
+    list_a = [int(gene_body_count), int(promoter_proximal_peak_count)]
+    list_b = [float_lambda* gene_body_length, float_lambda*promoter_window_length]
+    oddsratio, pvalue = stats.fisher_exact([list_a, list_b])  
+    return pvalue 
 
 def get_fisher_test(promoter_windows_file, gene_body_file,intergenic_file, output_file):
     gene_body_sample_name_list = open(gene_body_file).readline().strip().split(',')
     gene_body_sample_val_index_dict = get_list_val_index_dic(gene_body_sample_name_list)
     intergenic_sample_name_list = open(intergenic_file).readline().strip().split(',')
     intergenic_sample_val_index_dict = get_list_val_index_dic(intergenic_sample_name_list)
-    intergenic_total_length = np.sum(read_csv_col_ndarray(intergenic_file, 1, 1))        
+    # intergenic_total_length = np.sum(read_csv_col_ndarray(intergenic_file, 1, 1))        
     promoter_sample_name_list = open(promoter_windows_file).readline().strip().split(',')
     promoter_sample_val_index_dict = get_list_val_index_dic(promoter_sample_name_list)    
 
@@ -145,8 +137,7 @@ def get_fisher_test(promoter_windows_file, gene_body_file,intergenic_file, outpu
     int_num =2
     while int_num< int_total-1:
         promoter_length.append(promoter_windows_length[int_num])
-        int_num +=390
-    print 'int_num ', int_num, 'body and promoter length ', len(body_length), len(promoter_length)
+        int_num +=100
 
     sample_list = ['ensembl_id']
     for sample_name in gene_body_sample_name_list:
@@ -156,7 +147,6 @@ def get_fisher_test(promoter_windows_file, gene_body_file,intergenic_file, outpu
         gene_body_density = get_density_list(gene_body_file, gene_body_sample_val_index_dict[sample_name])
         intergenic_density = get_density_list(intergenic_file, intergenic_sample_val_index_dict[sample_name])
         intergenic_density = [x for x in intergenic_density if x>0]
-        # 去掉异常值
         intergenic_density = sorted(intergenic_density)[:int(len(intergenic_density)*0.95)]
         back_val = np.mean(intergenic_density)
 
@@ -164,30 +154,36 @@ def get_fisher_test(promoter_windows_file, gene_body_file,intergenic_file, outpu
 
         int_total = len(promoter_windows_density)
         max_promoter_window_density = []
-        
         # feature count row from 2
         int_num =2
         while int_num< int_total-1:
-            int_max_count = max(promoter_windows_density[int_num:int_num+390])
+            int_max_count = np.max(promoter_windows_density[int_num:int_num+100])
             max_promoter_window_density.append(int_max_count)
-            int_num +=390    
-        print 'body and promoter density ', len(gene_body_density), len(max_promoter_window_density)
+            int_num +=100
+        
+        gene_body_count = gene_body_density * body_length
+        promoter_count = np.array(max_promoter_window_density) * promoter_length
+
+        l_list = [back_val]*len(gene_body_count)
+        fisher_pvalue = map(fisher_test, gene_body_count, promoter_count, l_list, body_length, promoter_length)
+        old_column = np.vstack([old_column, fisher_pvalue])
+    
+    old_column_T = old_column.T
+    old_column_T = np.vstack([np.array(sample_list), old_column_T])
+    np.savetxt(output_file, old_column_T, delimiter=',', fmt='%s')        
+
 
 
 def main():
-    #c = open('./specie_active_gene_num.txt', 'w') 
-    #for specie_dir in ['human', 'mouse' 'ara', 'cae', 'dro',  'mac', 'man',  'pan', 'pla', 'rat','sac', 'sch', 'zea']:
-        ############### active gene
-        #print specie_dir
-        #c.write('########specie_dir:'+specie_dir+'\n')
     gene_body_file = '../results/gene_body_feature_count_matrix.csv'
     intergenic_file = '../results/intergenic_feature_count_matrix.csv'
     active_gene_output_file = '../results/active_gene_p_value.csv'
-    # get_active_gene(gene_body_file, intergenic_file, active_gene_output_file)
+    get_active_gene(gene_body_file, intergenic_file, active_gene_output_file)
 
     promoter_file = '../results/promoter_feature_count_matrix.csv'
     pi_ouput_file = '../results/pi_gene_fc.csv'
-    # get_pi(promoter_file, gene_body_file, pi_ouput_file)
+    get_pi(promoter_file, gene_body_file, pi_ouput_file)
+
     promoter_windows_file = '../results/promoter_windows_feature_count_matrix.csv'
     fisher_output_file = '../results/fisher_pvalue_gene.csv'
     get_fisher_test(promoter_windows_file, gene_body_file,intergenic_file, fisher_output_file)

@@ -54,7 +54,7 @@ commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/
 上面生成的count需要输出到excel。  
 
 ### 0-3计算暂停基因  
-commit[地址]()
+commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/cefeead6b14b4aa5e09eea54b9eb772e586c76c8)
 1 确定是否激活: 
     通过一些基础函数提取样本在express matrix的具体列。
     使用possion分布比较gene body的density和intergenic region（背景）的density。  
@@ -65,8 +65,8 @@ commit[地址]()
         找到了网上的两种方法1 FPKM>1 2 zFPKM > -3，  
         但其中有很多问题，一个细胞系有很多样本选哪些比较，gro和rna-seq的gene索引找到表达值比较麻烦（懒得写），gro数据还要重算，而且比来比去也没多大意思对数据库没多大影响  
 
-PI(folder change)模型
-fisher test 模型 
+2 PI(folder change)模型
+3 fisher test 模型 
     按公式计算
     整合到一个excel中
 
@@ -74,6 +74,9 @@ fisher test 模型
 所有分析结果都要生成基于样本的统计。  
 将分布的情况转化成百分比。  
 设计图表，基于原始数据或百分比。  
+
+### 0-5画质控图  
+commit[地址]()
 
 ## others
 ### 0-0 annotation生成  
