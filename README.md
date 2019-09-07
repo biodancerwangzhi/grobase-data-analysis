@@ -75,7 +75,10 @@ commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/
 将分布的情况转化成百分比。  
 设计图表，基于原始数据或百分比。  
 
-### 0-5画质控图  
+### 0-5画exon intron质控图  
+commit[地址](https://github.com/biodancerwangzhi/grobase-data-analysis/commit/c412d086c7108b95ea3193177daef43fa45d748c)
+
+### 0-6active pause gene的富集分析  
 commit[地址]()
 
 ## others
