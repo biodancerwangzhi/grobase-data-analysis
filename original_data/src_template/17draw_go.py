@@ -28,34 +28,44 @@ def write_gene_to_file(set_gene, file_name):
 
 import rpy2.robjects as robjects
 from rpy2.robjects.packages import importr
-importr('org.At.tair.db')
+importr('org.Sc.sgd.db')
 importr('clusterProfiler')
 
 def go_analysis(set_gene_file, output):
     DE_list = robjects.StrVector(list(set_gene_file))
 
-    rcode_bp = 'enrichGO(gene= %s,keyType="TAIR",OrgDb =%s ,ont ="%s", \
+    rcode_bp = 'enrichGO(gene= %s,keyType="ENZYME",OrgDb =%s ,ont ="%s", \
     pAdjustMethod = "BH",pvalueCutoff = 0.01, qvalueCutoff = 0.05, \
-    readable = TRUE)'%(DE_list.r_repr(), 'org.At.tair.db', 'BP')
-    rcode_cc = 'enrichGO(gene= %s,keyType="TAIR",OrgDb =%s ,ont ="%s", \
+    readable = TRUE)'%(DE_list.r_repr(), 'org.Sc.sgd.db', 'BP')
+    rcode_cc = 'enrichGO(gene= %s,keyType="ENZYME",OrgDb =%s ,ont ="%s", \
     pAdjustMethod = "BH",pvalueCutoff = 0.01, qvalueCutoff = 0.05, \
-    readable = TRUE)'%(DE_list.r_repr(), 'org.At.tair.db', 'CC') 
-    rcode_mf = 'enrichGO(gene= %s,keyType="TAIR",OrgDb =%s ,ont ="%s", \
+    readable = TRUE)'%(DE_list.r_repr(), 'org.Sc.sgd.db', 'CC') 
+    rcode_mf = 'enrichGO(gene= %s,keyType="ENZYME",OrgDb =%s ,ont ="%s", \
     pAdjustMethod = "BH",pvalueCutoff = 0.01, qvalueCutoff = 0.05, \
-    readable = TRUE)'%(DE_list.r_repr(), 'org.At.tair.db', 'MF')   
+    readable = TRUE)'%(DE_list.r_repr(), 'org.Sc.sgd.db', 'MF')   
 
     ego_bp = robjects.r(rcode_bp)
     ego_cc = robjects.r(rcode_cc)
     ego_mf = robjects.r(rcode_mf)
 
     c = open(output + '_bp.txt', 'w')
-    c.write(str(ego_bp.r_repr()))
+    try: 
+        c.write(str(ego_bp.r_repr()))
+    except:
+        c.write('null')
     c.close()
+
     c = open(output + '_cc.txt', 'w')
-    c.write(str(ego_cc.r_repr()))
+    try:
+        c.write(str(ego_cc.r_repr()))
+    except:
+        c.write('null')    
     c.close()
     c = open(output + '_mf.txt', 'w')
-    c.write(str(ego_mf.r_repr()))
+    try:
+        c.write(str(ego_mf.r_repr()))
+    except:
+        c.write('null')    
     c.close()
 
 def main():
